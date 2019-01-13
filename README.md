@@ -15,7 +15,7 @@ from simple_colors import *
 
 print(green('hello'))
 print(green('hello', 'bold'))
-print(green('hello', 'underlined'))
+print(green('hello', ['bold', 'underlined']))
 ```
 
 ## Inlucded colors
@@ -43,7 +43,7 @@ print(green('hello', 'underlined'))
 ```
 $ simple-colors -h
 usage: simple-colors [-h]
-                     [-s {bright,bold,dim,italic,underlined,blink,reverse}]
+                     [-s [{bright,bold,dim,italic,underlined,blink,reverse} [{bright,bold,dim,italic,underlined,blink,reverse} ...]]]
                      {black,red,green,yellow,blue,magenta,cyan} text
 
 positional arguments:
@@ -52,5 +52,5 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -s {bright,bold,dim,italic,underlined,blink,reverse}, --style {bright,bold,dim,italic,underlined,blink,reverse}
+  -s [{bright,bold,dim,italic,underlined,blink,reverse} [{bright,bold,dim,italic,underlined,blink,reverse} ...]], --style [{bright,bold,dim,italic,underlined,blink,reverse} [{bright,bold,dim,italic,underlined,blink,reverse} ...]]
 ```

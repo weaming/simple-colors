@@ -4,7 +4,7 @@ https://github.com/fatih/color/blob/master/color.go<Paste>
 import os
 import argparse
 
-version = "0.1.3"
+version = "0.1.4"
 __all__ = ["black", "red", "green", "yellow", "blue", "magenta", "cyan"]
 
 
@@ -23,7 +23,7 @@ def get_color_code(color):
     return locals().get(color.upper())
 
 
-styles = {
+styles_mapping = {
     "bright": 1,
     "bold": 1,
     "dim": 2,
@@ -34,18 +34,30 @@ styles = {
 }
 
 
-def get_color_func(color):
-    def fn(text, style=None):
-        if isinstance(style, str):
-            style = styles[style]
+def parse_style(style):
+    if isinstance(style, str):
+        style = styles_mapping[style]
         if style and style not in list(range(1, 9)):
-            raise Exception('style must be in range(1,9)')
+            raise Exception("style must be in range(1,9)")
+    return style
+
+
+def get_color_func(color):
+    def fn(text, styles=None):
+        # ensure list
+        if not isinstance(styles, (tuple, list)):
+            styles = [styles]
+
+        # ensure int
+        styles = [parse_style(x) for x in styles]
 
         code = get_color_code(color)
         if not code:
             raise Exception("color {} not support".format(color))
-        if style:
-            return "\033[{};{}m{}\033[0m".format(style, code, text)
+        if styles:
+            return "\033[{};{}m{}\033[0m".format(
+                ";".join(str(x) for x in styles), code, text
+            )
         else:
             return "\033[{}m{}\033[0m".format(code, text)
 
@@ -64,11 +76,10 @@ def get_text(path):
 
 
 def main():
-
     parser = argparse.ArgumentParser()
     parser.add_argument("color", choices=__all__)
     parser.add_argument("text", help="text of file path")
-    parser.add_argument("-s", "--style", choices=styles.keys())
+    parser.add_argument("-s", "--style", nargs="*", choices=styles_mapping.keys())
     args = parser.parse_args()
 
     fn = get_color_func(args.color)
