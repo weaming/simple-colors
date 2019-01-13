@@ -56,7 +56,7 @@ for name in __all__:
 
 
 def get_text(path):
-    if os.path.isfile(path):
+    if os.path.exists(path):
         with open(path) as f:
             return f.read().strip()
     return path
