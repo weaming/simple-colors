@@ -4,7 +4,7 @@ https://github.com/fatih/color/blob/master/color.go<Paste>
 import os
 import argparse
 
-version = "0.1.2"
+version = "0.1.3"
 __all__ = ["black", "red", "green", "yellow", "blue", "magenta", "cyan"]
 
 
@@ -23,7 +23,7 @@ def get_color_code(color):
     return locals().get(color.upper())
 
 
-formats = {
+styles = {
     "bright": 1,
     "bold": 1,
     "dim": 2,
@@ -35,18 +35,19 @@ formats = {
 
 
 def get_color_func(color):
-    def fn(text, format=None):
-        if isinstance(format, str):
-            format = formats[format]
-        assert format in list(range(1, 9))
+    def fn(text, style=None):
+        if isinstance(style, str):
+            style = styles[style]
+        if style and style not in list(range(1, 9)):
+            raise Exception('style must be in range(1,9)')
 
         code = get_color_code(color)
         if not code:
             raise Exception("color {} not support".format(color))
-        if format:
-            return "\033[{};{}m{}\033[0m".format(format, code, text)
+        if style:
+            return "\033[{};{}m{}\033[0m".format(style, code, text)
         else:
-            return "\033[{}m{}\033[0m".format(format, code, text)
+            return "\033[{}m{}\033[0m".format(code, text)
 
     return fn
 
@@ -67,7 +68,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("color", choices=__all__)
     parser.add_argument("text", help="text of file path")
-    parser.add_argument("-s", "--style", choices=formats.keys())
+    parser.add_argument("-s", "--style", choices=styles.keys())
     args = parser.parse_args()
 
     fn = get_color_func(args.color)
