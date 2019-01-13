@@ -1,7 +1,10 @@
 """
 https://github.com/fatih/color/blob/master/color.go<Paste>
 """
-version = "0.1.1"
+import os
+import argparse
+
+version = "0.1.2"
 __all__ = ["black", "red", "green", "yellow", "blue", "magenta", "cyan"]
 
 
@@ -50,3 +53,27 @@ def get_color_func(color):
 
 for name in __all__:
     locals()[name] = get_color_func(name.upper())
+
+
+def get_text(path):
+    if os.path.isfile(path):
+        with open(path) as f:
+            return f.read().strip()
+    return path
+
+
+def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("color", choices=__all__)
+    parser.add_argument("text", help="text of file path")
+    parser.add_argument("-s", "--style", choices=formats.keys())
+    args = parser.parse_args()
+
+    fn = get_color_func(args.color)
+    text = get_text(args.text)
+    print(fn(text, args.style))
+
+
+if __name__ == "__main__":
+    main()

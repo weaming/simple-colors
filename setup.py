@@ -44,6 +44,9 @@ setup(
     # single python file
     # packages=find_packages(exclude=["contrib", "docs", "tests"]),  # Required
     py_modules=["simple_colors"],
+    entry_points={
+        "console_scripts": ["simple-colors=simple_colors:main"]
+    },  # Optional
     url=gh_repo,  # Optional
     author="weaming",  # Optional
     author_email="garden.yuen@gmail.com",  # Optional
