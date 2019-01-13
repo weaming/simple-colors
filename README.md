@@ -14,7 +14,18 @@ pip install simple-colors
 from simple_colors import *
 
 print(green('hello'))
+print(green('hello', 'bold'))
+print(green('hello', 'underlined'))
 ```
+
+The styles include:
+* bold
+* bright
+* dim
+* italic
+* underlined
+* blink
+* reverse
 
 ## Inlucded colors
 
