@@ -1,10 +1,10 @@
 """
-https://github.com/fatih/color/blob/master/color.go<Paste>
+https://github.com/fatih/color/blob/master/color.go
 """
 import os
 import argparse
 
-version = "0.1.4"
+version = "0.1.5"
 __all__ = ["black", "red", "green", "yellow", "blue", "magenta", "cyan"]
 
 
@@ -49,7 +49,7 @@ def get_color_func(color):
             styles = [styles]
 
         # ensure int
-        styles = [parse_style(x) for x in styles]
+        styles = [parse_style(x) for x in styles if parse_style(x)]
 
         code = get_color_code(color)
         if not code:
